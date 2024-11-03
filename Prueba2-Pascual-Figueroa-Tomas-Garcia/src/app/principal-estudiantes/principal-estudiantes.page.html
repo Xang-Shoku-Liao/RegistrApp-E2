@@ -18,8 +18,16 @@
     </ion-item>
   </ion-list>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button (click)="scan()" [disabled]="!isSupported">
-      <ion-icon name="scan"></ion-icon>
-    </ion-fab-button>
+    <ion-button (click)="startScan()" class="submit" expand="block">
+      Scan
+      <ion-icon name="scan-outline" slot="end"></ion-icon>
+    </ion-button>
+
+      <ion-item class="result" *ngIf="scanResult" lines="none">
+        <ion-label>
+          <p>Scan result</p>
+          <div>{{scanResult}}</div>
+        </ion-label>
+      </ion-item>
   </ion-fab>
 </ion-content>

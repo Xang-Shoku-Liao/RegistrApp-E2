@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { PrincipalEstudiantesPageRoutingModule } from './principal-estudiantes-routing.module';
 
 import { PrincipalEstudiantesPage } from './principal-estudiantes.page';
+import { BarcodeScanningModalComponent } from './barcode-scanning-modal.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { PrincipalEstudiantesPage } from './principal-estudiantes.page';
     IonicModule,
     PrincipalEstudiantesPageRoutingModule
   ],
-  declarations: [PrincipalEstudiantesPage]
+  declarations: [PrincipalEstudiantesPage, BarcodeScanningModalComponent]
 })
 export class PrincipalEstudiantesPageModule {}

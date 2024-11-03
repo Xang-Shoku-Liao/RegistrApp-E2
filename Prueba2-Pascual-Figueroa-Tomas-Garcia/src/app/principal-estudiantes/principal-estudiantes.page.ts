@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
-import { AlertController, NavController } from '@ionic/angular';
+import { Barcode, BarcodeScanner, LensFacing } from '@capacitor-mlkit/barcode-scanning';
+import { AlertController, ModalController, NavController } from '@ionic/angular';
+import { BarcodeScanningModalComponent } from './barcode-scanning-modal.component';
 
 @Component({
   selector: 'app-principal-estudiantes',
@@ -12,12 +13,44 @@ export class PrincipalEstudiantesPage implements OnInit {
   isSupported = false;
   barcodes: Barcode[] = [];
 
-  constructor(private alertController: AlertController, private navCtrl: NavController) {}
+  scanResult = '';
+
+  constructor(
+    private alertController: AlertController, 
+    private navCtrl: NavController,
+    private modalController: ModalController
+  ) { }
+
+  async startScan() {
+    const modal = await this.modalController.create({
+    component: BarcodeScanningModalComponent,
+    cssClass: 'barcode-scanning-modal',
+    showBackdrop: false,
+    componentProps: { 
+      formats: [],
+      LensFacing: LensFacing.Back
+    }
+  });
+
+  await modal.present();
+
+  const { data } = await modal.onWillDismiss();
+
+  if(data){
+    this.scanResult = data?.barcode?.displayValue;
+  }
+  }
 
   ngOnInit() {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     this.username = user.username || 'Invitado';
     this.checkBarcodeSupport();
+
+    // if(this.platform.is('capacitor')) {
+    //   BarcodeScanner.isSupported().then();
+    //   BarcodeScanner.checkPermissions().then();
+    //   BarcodeScanner.removeAllListeners().then();
+    // }
   }
 
   async checkBarcodeSupport() {
